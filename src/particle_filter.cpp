@@ -21,6 +21,7 @@
 using std::string;
 using std::vector;
 using std::normal_distribution;
+using std::default_random_engine;
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
   /**
@@ -32,16 +33,21 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   num_particles = 50;  // TODO: Set the number of particles
-  std::default_random_engine gen;
+  default_random_engine gen;
   normal_distribution<double> dist_x(x,std[0]);
   normal_distribution<double> dist_y(y,std[1]);
   normal_distribution<double> dist_theta(theta,std[2]);
 
   for (int i = 0; i < num_particles; ++i){
-    Particle temp_particle 
+      Particle temp_particle;
+      temp_particle.id = i;
+      temp_particle.x = dist_x(gen);
+      temp_particle.y = dist_y(gen);
+      temp_particle.theta = dist_theta(gen);
+      temp_particle.weight = 1;
+      particles.push_back(temp_particle);
   }
-
-
+    
 }
 
 void ParticleFilter::prediction(double delta_t, double std_pos[], 
@@ -53,6 +59,29 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
+    double x_p,y_p,theta_p;
+    default_random_engine gen;
+    
+    for (int i = 0; i < num_particles; ++i) {
+        double theta = particles[i].theta;
+        double v_over_yawrate = velocity/yaw_rate;
+        double t_times_yawrate = yaw_rate * delta_t;
+        x_p = particles[i].x + v_over_yawrate * (sin(theta + t_times_yawrate) - sin(theta));
+        y_p = particles[i].y + v_over_yawrate * (cos(theta) - cos(theta + t_times_yawrate));
+        theta_p = theta + t_times_yawrate;
+        normal_distribution<double> dist_x_p(x_p,std_pos[0]);
+        normal_distribution<double> dist_y_p(y_p,std_pos[1]);
+        normal_distribution<double> dist_theta_p(theta_p,std_pos[2]);
+        
+        // Record back to particles struct
+        particles[i].x = dist_x_p(gen);
+        particles[i].y = dist_y_p(gen);
+        particles[i].theta = dist_theta_p(gen);
+                
+        
+    }
+//
+    
 
 }
 
