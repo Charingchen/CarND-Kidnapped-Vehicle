@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/particle_filter.cpp"
-            timestampString = "621478827.849153"
+            timestampString = "621636733.734122"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "ParticleFilter::init(double x, double y, double theta, double std[])"
             landmarkType = "7">
             <Locations>
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "621480834.801556"
+            timestampString = "621636733.7351249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
@@ -70,16 +70,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/particle_filter.cpp"
+            timestampString = "621636733.7353081"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "ParticleFilter::updateWeights(double sensor_range, double std_landmark[], const vector&lt;LandmarkObs&gt; &amp;observations, const Map &amp;map_landmarks)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/particle_filter.cpp"
+            timestampString = "621636733.736026"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "ParticleFilter::updateWeights(double sensor_range, double std_landmark[], const vector&lt;LandmarkObs&gt; &amp;observations, const Map &amp;map_landmarks)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/particle_filter.cpp"
-            timestampString = "621562328.005069"
+            timestampString = "621636733.736624"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "ParticleFilter::updateWeights(double sensor_range, double std_landmark[], const vector&lt;LandmarkObs&gt; &amp;observations, const Map &amp;map_landmarks)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/particle_filter.cpp"
+            timestampString = "621636733.737255"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "ParticleFilter::dataAssociation(vector&lt;LandmarkObs&gt; predicted, vector&lt;LandmarkObs&gt;&amp; observations)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
