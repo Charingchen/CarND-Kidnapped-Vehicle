@@ -77,11 +77,8 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
         particles[i].x = dist_x_p(gen);
         particles[i].y = dist_y_p(gen);
         particles[i].theta = dist_theta_p(gen);
-                
         
     }
-//
-    
 
 }
 
@@ -95,6 +92,11 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    *   probably find it useful to implement this method and use it as a helper 
    *   during the updateWeights phase.
    */
+    // dist = sqrt(x*x + y*y)
+    
+    // min(dist) ->> index
+    
+    // precducted is map landmarks within the sensor_ranges.
 
 }
 
@@ -114,6 +116,41 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   and the following is a good resource for the actual equation to implement
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
+    
+    // Scan through each particals
+    for (int i = 0;i < particles.size(); ++i){
+        // First, store particle's values to local variables to reduce runtime
+        double x_p = particles[i].x;
+        double y_p = particles[i].y;
+        double theta_p = particles[i].theta;
+        
+        double sin_theta_p = sin(theta_p);
+        double cos_theta_p = cos(theta_p);
+        
+        // Translate observations into maps coordinates respect to the current partical
+        
+        vector<LandmarkObs> observations_t; // Declare translated observation to hold result
+        // Loop through orginial observations list
+        for (int j = 0; j < observations.size();++j){
+            double o_x = observations[j].x;
+            double o_y = observations[j].y;
+            double m_x_t = x_p + cos_theta_p * o_x - sin_theta_p * o_y;
+            double m_y_t = y_p + sin_theta_p * o_x + cos_theta_p * o_y;
+            observations_t.push_back(LandmarkObs{observations[j].id, m_x_t,m_y_t});
+        }
+        
+        // Prectied is the map landmarks within sensor range respect to current partical's location.
+        vector<LandmarkObs> predicted; // Declare predicted as Landmark objects
+        
+        
+        
+    }
+    
+    
+    // translate observations into map coordinates.
+    
+    
+    // translate map_landmarks into
 
 }
 
