@@ -175,7 +175,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         double total_weight = 1.0;
         
         for (int j = 0; j < observations.size(); ++j) {
-            int index = observations[j].id;
+            int index = observations[j].id - 1;
             double mu_x = map_landmarks.landmark_list[index].x_f;
             double mu_y = map_landmarks.landmark_list[index].y_f;
             
