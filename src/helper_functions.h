@@ -59,6 +59,31 @@ inline double dist(double x1, double y1, double x2, double y2) {
 }
 
 /**
+ * Compute Multivariate-Gaussian probability density. Code come from the classroom
+ * @param sig_
+ *
+ 
+ */
+inline double multiv_prob(double std_landmark[], double x_obs, double y_obs,double mu_x, double mu_y) {
+    // calculate normalization term
+    double sig_x = std_landmark[0];
+    double sig_y = std_landmark[1];
+    double gauss_norm;
+    gauss_norm = 1 / (2 * M_PI * sig_x * sig_y);
+
+    // calculate exponent
+    double exponent;
+    exponent = (pow(x_obs - mu_x, 2) / (2 * pow(sig_x, 2)))
+    + (pow(y_obs - mu_y, 2) / (2 * pow(sig_y, 2)));
+
+    // calculate weight using normalization terms and exponent
+    double weight;
+    weight = gauss_norm * exp(-exponent);
+
+    return weight;
+}
+
+/**
  * Computes the error between ground truth and particle filter data.
  * @param (gt_x, gt_y, gt_theta) x, y and theta of ground truth
  * @param (pf_x, pf_y, pf_theta) x, y and theta of particle filter

@@ -92,12 +92,23 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
    *   probably find it useful to implement this method and use it as a helper 
    *   during the updateWeights phase.
    */
-    // dist = sqrt(x*x + y*y)
-    
-    // min(dist) ->> index
-    
-    // precducted is map landmarks within the sensor_ranges.
-
+    for (int k = 0; k < observations.size(); ++k){
+        double o_x = observations[k].x;
+        double o_y = observations[k].y;
+        // Assign the first dist of precticted and observations
+        double min_dist = dist(o_x, o_y, predicted[0].x, predicted[0].y);
+        int id = predicted[0].id;
+        
+        for (int i = 1; i < predicted.size();++i){
+            double temp_min = dist(o_x, o_y, predicted[i].x, predicted[i].y);
+            if (temp_min < min_dist){
+                min_dist = temp_min;
+                id = predicted[i].id;
+            }
+        }
+        // assign the the id to observation
+        observations[k].id = id;
+    }
 }
 
 void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], 
@@ -123,7 +134,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         double x_p = particles[i].x;
         double y_p = particles[i].y;
         double theta_p = particles[i].theta;
-        
+        // Perform Calculation only once to save runtime
         double sin_theta_p = sin(theta_p);
         double cos_theta_p = cos(theta_p);
         
@@ -141,16 +152,38 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         
         // Prectied is the map landmarks within sensor range respect to current partical's location.
         vector<LandmarkObs> predicted; // Declare predicted as Landmark objects
+        // if the landmark is within sensor range , append to predicted
+        for (int k = 0; k < map_landmarks.landmark_list.size(); ++k){
+            // Calculate the radius of circle using particle x,y as the center and x y value of map landmarks to determine if those are within the sensor range
+            
+            double x_f = map_landmarks.landmark_list[k].x_f;
+            double y_f = map_landmarks.landmark_list[k].y_f;
+            double p_radius_sq = pow(x_f - x_p, 2.0) + pow(y_f - y_p, 2.0);
+            double sensor_range_radius = sensor_range/2.0;
+            if(p_radius_sq < (sensor_range_radius * sensor_range_radius)){
+                LandmarkObs temp_landmark;
+                temp_landmark.x = x_f;
+                temp_landmark.y = y_f;
+                temp_landmark.id = map_landmarks.landmark_list[k].id_i;
+                predicted.push_back(temp_landmark);
+            }
+        }
+        // call dataAssiation add sort ID
+        dataAssociation(predicted, observations_t);
         
+        // Loop through observation again to calculate Multivariate-Gaussian probability density
+        double total_weight = 1.0;
         
+        for (int j = 0; j < observations.size(); ++j) {
+            int index = observations[j].id;
+            double mu_x = map_landmarks.landmark_list[index].x_f;
+            double mu_y = map_landmarks.landmark_list[index].y_f;
+            
+            total_weight *= multiv_prob(std_landmark, observations[j].x, observations[j].y, mu_x, mu_y);
+        }
         
     }
     
-    
-    // translate observations into map coordinates.
-    
-    
-    // translate map_landmarks into
 
 }
 
