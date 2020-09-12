@@ -179,9 +179,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
             double mu_x = map_landmarks.landmark_list[index].x_f;
             double mu_y = map_landmarks.landmark_list[index].y_f;
             
-            total_weight *= multiv_prob(std_landmark, observations[j].x, observations[j].y, mu_x, mu_y);
+            total_weight *= multiv_prob(std_landmark, observations_t[j].x, observations_t[j].y, mu_x, mu_y);
         }
-        
+        particles[i].weight = total_weight;
     }
     
 
