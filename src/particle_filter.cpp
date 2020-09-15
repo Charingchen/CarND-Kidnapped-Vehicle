@@ -22,6 +22,7 @@ using std::string;
 using std::vector;
 using std::normal_distribution;
 using std::default_random_engine;
+// Create randone generator as globel
 default_random_engine gen;
 
 
@@ -35,7 +36,8 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    *   (and others in this file).
    */
   num_particles = 50;  // TODO: Set the number of particles
-  default_random_engine gen;
+  
+  // Create normal distribution mode for x y and theta
   normal_distribution<double> dist_x(x,std[0]);
   normal_distribution<double> dist_y(y,std[1]);
   normal_distribution<double> dist_theta(theta,std[2]);
@@ -99,9 +101,11 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
         // Assign the first dist of precticted and observations
         double min_dist = dist(o_x, o_y, predicted[0].x, predicted[0].y);
         int id = predicted[0].id;
-        
+        // Starting from index 1. loop all predited landmarks
         for (int i = 1; i < predicted.size();++i){
+            // Find the distance between landmark with current particle
             double temp_min = dist(o_x, o_y, predicted[i].x, predicted[i].y);
+            // If current distance is small that before, record current
             if (temp_min < min_dist){
                 min_dist = temp_min;
                 id = predicted[i].id;
@@ -155,13 +159,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         vector<LandmarkObs> predicted; // Declare predicted as Landmark objects
         // if the landmark is within sensor range , append to predicted
         for (int k = 0; k < map_landmarks.landmark_list.size(); ++k){
-            // Calculate the radius of circle using particle x,y as the center and x y value of map landmarks to determine if those are within the sensor range
             
+            // Grab landmarks x and y
             double x_f = map_landmarks.landmark_list[k].x_f;
             double y_f = map_landmarks.landmark_list[k].y_f;
-            
+            // Find the distance between landmark and current particle
             double landmark_dist = dist(x_f, y_f, x_p, y_p);
-            
+            // If the landmark is too far away, ignore. Only take landmarks within the sensor range
             if ( landmark_dist <= sensor_range){
                 LandmarkObs temp_landmark;
                 temp_landmark.x = x_f;
@@ -169,24 +173,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
                 temp_landmark.id = map_landmarks.landmark_list[k].id_i;
                 predicted.push_back(temp_landmark);
             }
-//            double p_radius_sq = pow(x_f - x_p, 2.0) + pow(y_f - y_p, 2.0);
-//            double sensor_range_radius = sensor_range/2.0;
-//            if(p_radius_sq < (sensor_range_radius * sensor_range_radius)){
-//                LandmarkObs temp_landmark;
-//                temp_landmark.x = x_f;
-//                temp_landmark.y = y_f;
-//                temp_landmark.id = map_landmarks.landmark_list[k].id_i;
-//                predicted.push_back(temp_landmark);
-//            }
         }
-        // call dataAssiation add sort ID
+        // call dataAssiation add landmark ID to observation_t
         dataAssociation(predicted, observations_t);
         
         // Loop through observation again to calculate Multivariate-Gaussian probability density
         double total_weight = 1.0;
         
         for (int j = 0; j < observations_t.size(); ++j) {
-            int index = observations_t[j].id - 1;
+            int index = observations_t[j].id - 1; // The id is one less than the index of landmark list
             double mu_x = map_landmarks.landmark_list[index].x_f;
             double mu_y = map_landmarks.landmark_list[index].y_f;
             
@@ -206,6 +201,7 @@ void ParticleFilter::resample() {
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
     vector<double> weights;
+    // Grab all the weights and append it to a vector for disctrete_distribution
     for(int i = 0; i < particles.size();++i){
         weights.push_back(particles[i].weight);
     }
@@ -221,6 +217,8 @@ void ParticleFilter::resample() {
     vector<Particle> resampled_particles;
     
     for(int i = 0; i < particles.size();++i){
+        // disctrete distribution return a random index based on the weight.
+        // Append the index of particle to a new particles vectors
         resampled_particles.push_back(particles[distribution(gen)]);
     }
     
