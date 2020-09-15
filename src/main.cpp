@@ -62,6 +62,7 @@ int main() {
         string event = j[0].get<string>();
         
         if (event == "telemetry") {
+            
           // j[1] is the data JSON object
           if (!pf.initialized()) {
             // Sense noisy position data from the simulator
@@ -75,9 +76,14 @@ int main() {
             //   (noiseless control) data.
             double previous_velocity = std::stod(j[1]["previous_velocity"].get<string>());
             double previous_yawrate = std::stod(j[1]["previous_yawrate"].get<string>());
-
+              if (isnan(pf.particles[0].x)) {
+                  std::cout << "Nan Detected" << std::endl;
+              }
             pf.prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
           }
+            if (isnan(pf.particles[0].x)) {
+                std::cout << "Nan Detected" << std::endl;
+            }
 
           // receive noisy observation data from the simulator
           // sense_observations in JSON format 
@@ -106,7 +112,9 @@ int main() {
             obs.y = y_sense[i];
             noisy_observations.push_back(obs);
           }
-
+            if (isnan(pf.particles[0].x)) {
+                std::cout << "Nan Detected" << std::endl;
+            }
           // Update the weights and resample
           pf.updateWeights(sensor_range, sigma_landmark, noisy_observations, map);
           pf.resample();

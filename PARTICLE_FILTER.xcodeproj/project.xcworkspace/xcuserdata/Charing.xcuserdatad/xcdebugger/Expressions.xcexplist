@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "main::$_0::operator()(uWS::WebSocket&lt;true&gt;, char*, unsigned long, uWS::OpCode) const:main.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "main:main.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "ParticleFilter::dataAssociation(std::__1::vector&lt;LandmarkObs, std::__1::allocator&lt;LandmarkObs&gt; &gt;, std::__1::vector&lt;LandmarkObs, std::__1::allocator&lt;LandmarkObs&gt; &gt;&amp;):particle_filter.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "ParticleFilter::updateWeights(double, double*, std::__1::vector&lt;LandmarkObs, std::__1::allocator&lt;LandmarkObs&gt; &gt; const&amp;, Map const&amp;):particle_filter.cpp">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

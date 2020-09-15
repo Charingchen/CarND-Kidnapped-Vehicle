@@ -35,6 +35,10 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    * NOTE: Consult particle_filter.h for more information about this method 
    *   (and others in this file).
    */
+    
+    if (is_initialized){
+        return;
+    }
   num_particles = 50;  // TODO: Set the number of particles
   
   // Create normal distribution mode for x y and theta
@@ -64,14 +68,28 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
     double x_p,y_p,theta_p;
+    double v_over_yawrate;
+    double t_times_yawrate;
+    
+    if (fabs(yaw_rate) > 0.001){
+         v_over_yawrate = velocity/yaw_rate;
+         t_times_yawrate = yaw_rate * delta_t;
+    }
+    
     
     for (int i = 0; i < num_particles; ++i) {
         double theta = particles[i].theta;
-        double v_over_yawrate = velocity/yaw_rate;
-        double t_times_yawrate = yaw_rate * delta_t;
-        x_p = particles[i].x + v_over_yawrate * (sin(theta + t_times_yawrate) - sin(theta));
-        y_p = particles[i].y + v_over_yawrate * (cos(theta) - cos(theta + t_times_yawrate));
-        theta_p = theta + t_times_yawrate;
+        if (fabs(yaw_rate) > 0.001){
+            x_p = particles[i].x + v_over_yawrate * (sin(theta + t_times_yawrate) - sin(theta));
+            y_p = particles[i].y + v_over_yawrate * (cos(theta) - cos(theta + t_times_yawrate));
+            theta_p = theta + t_times_yawrate;
+            
+        } else{
+            x_p = particles[i].x + velocity * delta_t * cos(theta);
+            y_p = particles[i].y + velocity * delta_t * sin(theta);
+            theta_p = theta;
+        }
+        
         normal_distribution<double> dist_x_p(x_p,std_pos[0]);
         normal_distribution<double> dist_y_p(y_p,std_pos[1]);
         normal_distribution<double> dist_theta_p(theta_p,std_pos[2]);
