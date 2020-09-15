@@ -22,6 +22,8 @@ using std::string;
 using std::vector;
 using std::normal_distribution;
 using std::default_random_engine;
+default_random_engine gen;
+
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
   /**
@@ -60,7 +62,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
     double x_p,y_p,theta_p;
-    default_random_engine gen;
     
     for (int i = 0; i < num_particles; ++i) {
         double theta = particles[i].theta;
@@ -210,8 +211,20 @@ void ParticleFilter::resample() {
     }
     std::discrete_distribution<double> distribution(weights.begin(),weights.end());
     
-    std::cout << "Probbility of particles";
-    for (double x:distribution.probabilities()) std::cout << x << " ";
+//    std::cout << "Probbility of particles"<< std::endl;
+//    for (double x:distribution.probabilities()) std::cout << x << " ";
+//
+//    for (int j = 0; j < 10; ++j){
+//         std::cout << "j ="<< j << "  dist return"<< distribution(gen)<<std::endl;
+//
+//    }
+    vector<Particle> resampled_particles;
+    
+    for(int i = 0; i < particles.size();++i){
+        resampled_particles.push_back(particles[distribution(gen)]);
+    }
+    
+    particles = resampled_particles;
     
 
 
