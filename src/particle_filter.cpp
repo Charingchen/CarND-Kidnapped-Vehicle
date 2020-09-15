@@ -47,7 +47,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
       temp_particle.weight = 1;
       particles.push_back(temp_particle);
   }
-    
+    is_initialized = true;
 }
 
 void ParticleFilter::prediction(double delta_t, double std_pos[], 
@@ -158,15 +158,25 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
             
             double x_f = map_landmarks.landmark_list[k].x_f;
             double y_f = map_landmarks.landmark_list[k].y_f;
-            double p_radius_sq = pow(x_f - x_p, 2.0) + pow(y_f - y_p, 2.0);
-            double sensor_range_radius = sensor_range/2.0;
-            if(p_radius_sq < (sensor_range_radius * sensor_range_radius)){
+            
+            double landmark_dist = dist(x_f, y_f, x_p, y_p);
+            
+            if ( landmark_dist <= sensor_range){
                 LandmarkObs temp_landmark;
                 temp_landmark.x = x_f;
                 temp_landmark.y = y_f;
                 temp_landmark.id = map_landmarks.landmark_list[k].id_i;
                 predicted.push_back(temp_landmark);
             }
+//            double p_radius_sq = pow(x_f - x_p, 2.0) + pow(y_f - y_p, 2.0);
+//            double sensor_range_radius = sensor_range/2.0;
+//            if(p_radius_sq < (sensor_range_radius * sensor_range_radius)){
+//                LandmarkObs temp_landmark;
+//                temp_landmark.x = x_f;
+//                temp_landmark.y = y_f;
+//                temp_landmark.id = map_landmarks.landmark_list[k].id_i;
+//                predicted.push_back(temp_landmark);
+//            }
         }
         // call dataAssiation add sort ID
         dataAssociation(predicted, observations_t);
@@ -194,6 +204,16 @@ void ParticleFilter::resample() {
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
+    vector<double> weights;
+    for(int i = 0; i < particles.size();++i){
+        weights.push_back(particles[i].weight);
+    }
+    std::discrete_distribution<double> distribution(weights.begin(),weights.end());
+    
+    std::cout << "Probbility of particles";
+    for (double x:distribution.probabilities()) std::cout << x << " ";
+    
+
 
 }
 

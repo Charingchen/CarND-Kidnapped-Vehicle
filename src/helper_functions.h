@@ -73,8 +73,7 @@ inline double multiv_prob(double std_landmark[], double x_obs, double y_obs,doub
 
     // calculate exponent
     double exponent;
-    exponent = (pow(x_obs - mu_x, 2) / (2 * pow(sig_x, 2)))
-    + (pow(y_obs - mu_y, 2) / (2 * pow(sig_y, 2)));
+    exponent = (pow(x_obs - mu_x, 2) / (2 * pow(sig_x, 2))) + (pow(y_obs - mu_y, 2) / (2 * pow(sig_y, 2)));
 
     // calculate weight using normalization terms and exponent
     double weight;
