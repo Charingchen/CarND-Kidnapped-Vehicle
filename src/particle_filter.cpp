@@ -223,7 +223,7 @@ void ParticleFilter::resample() {
     for(int i = 0; i < particles.size();++i){
         weights.push_back(particles[i].weight);
     }
-    std::discrete_distribution<double> distribution(weights.begin(),weights.end());
+    std::discrete_distribution<int> distribution(weights.begin(),weights.end());
     
 //    std::cout << "Probbility of particles"<< std::endl;
 //    for (double x:distribution.probabilities()) std::cout << x << " ";
