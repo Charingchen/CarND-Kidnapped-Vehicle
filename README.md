@@ -4,6 +4,20 @@ Your robot has been kidnapped and transported to a new location! Luckily it has 
 
 In this project, you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
 
+## Create Xcode Project using Cmake
+To create Xcode project using Cmake, type following in the terminal
+```bash
+cmake -G Xcode .
+```
+Here I Created the Xcode project at root folder. You could create a new folder to hold all Xcode files and xcodeproj file to make the directory cleaner.
+
+```
+mkdir build && cd build
+cmake -G Xcode ..
+```
+The cmake will use the Cmakelist.txt in the root directory to make the Xcodeproj.
+The Xcode Compiled file is located ./Debug/particle_filter
+
 ## Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
