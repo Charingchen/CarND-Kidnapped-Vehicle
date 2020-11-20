@@ -1,7 +1,7 @@
 ## Project Introduction
 Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
+In this project, you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
 
 ## Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
@@ -28,27 +28,27 @@ Note that the programs that need to be written to accomplish the project are src
 
 The program main.cpp has already been filled out, but feel free to modify it.
 
-Detailed Code input and output parameters, please refer to orginial [Udacity Repo](https://github.com/udacity/CarND-Kidnapped-Vehicle-Project)
+Detailed Code input and output parameters, please refer to original [Udacity Repo](https://github.com/udacity/CarND-Kidnapped-Vehicle-Project)
 
 ## Code Explanation
-The code flowchart is shown at below. 
+The code flowchart is shown below. 
 
 ![image](./images/flowchart.png)
 
-First initialize the the particle filter object with the first position vales and add GPC noise distribution onto them. Also populated all particles with weight of 1
+First, initialize the particle filter object with the first position vales and add GPC noise distribution onto them. Also populated all particles with a weight of 1
  
-Next, predict the location of the every particle base on the previous  Yaw rate and Velocity values along with their noise.
+Next, predict the location of every particle base on the previous  Yaw rate and Velocity values along with their noise.
 
-Then at "Update Step", scan through every particles and translate the landmarks location and feature measurement based on the current particles coordinates. And then use closest neighbour logic to find the best sensor reading and assign the landmark ID to it.
+Then at "Update Step", scan through every particle and translate the landmarks location and feature measurement based on the current particle coordinates. And then use the closest neighbour logic to find the best sensor reading and assign the landmark ID to it.
 Then, update the weight of the particle by multiplying all measurements' Multivariate-Gaussian probability density.
 
-Now at the key part of the logic --  "Re-sampling". The weight of the particles represent the probability of this particle been randomly picked to be the next iteration of particles. I used [std::discrete_distribution](http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution) instead of resampling wheel shown in the class.
+Now at the key part of the logic --  "Re-sampling". The weight of the particles represents the probability of this particle been randomly picked to be the next iteration of particles. I used [std::discrete_distribution](http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution) instead of the resampling wheel shown in the class.
 
-For the next iteration, the number of particles would stay the same but the list was re-sampled based on their weights calculated previous iteration. 
+For the next iteration, the number of particles would stay the same but the list was re-sampled based on their weights calculated the previous iteration. 
 
 ### Hint
-Be cautious whenever you have incoming variable that been processed at denominator of a division. 
-Here in this project, the yaw rate could be zero and when it is zero, the prediction step need to use a different equation.
+Be cautious whenever you have an incoming variable that has been processed at the denominator of a division. 
+Here in this project, the yaw rate could be zero and when it is zero, the prediction step needs to use a different equation.
 
 
 <img src="./images/nonzero-yaw-rate.png" width="100">
@@ -56,3 +56,5 @@ Here in this project, the yaw rate could be zero and when it is zero, the predic
 <img src="./images/zero-yaw-rate.png" width="100">
 
 ## Result Video
+Here is my final result video. the circle with x inside represents the landmarks and the blue circle around the car represents the predicted location and orientation.
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Dkr3Clz1Ric/0.jpg)](https://youtu.be/Dkr3Clz1Ric)
