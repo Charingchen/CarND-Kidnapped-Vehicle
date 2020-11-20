@@ -116,7 +116,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
     for (int k = 0; k < observations.size(); ++k){
         double o_x = observations[k].x;
         double o_y = observations[k].y;
-        // Assign the first dist of precticted and observations
+        // Assign the first dist of predicted and observations
         double min_dist = dist(o_x, o_y, predicted[0].x, predicted[0].y);
         int id = predicted[0].id;
         // Starting from index 1. loop all predited landmarks
@@ -151,7 +151,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
     
-    // Scan through each particals
+    // Scan through each particle
     for (int i = 0;i < particles.size(); ++i){
         // First, store particle's values to local variables to reduce runtime
         double x_p = particles[i].x;
@@ -161,10 +161,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         double sin_theta_p = sin(theta_p);
         double cos_theta_p = cos(theta_p);
         
-        // Translate observations into maps coordinates respect to the current partical
+        // Translate observations into maps coordinates respect to the current particle
         
         vector<LandmarkObs> observations_t; // Declare translated observation to hold result
-        // Loop through orginial observations list
+        // Loop through original observations list
         for (int j = 0; j < observations.size();++j){
             double o_x = observations[j].x;
             double o_y = observations[j].y;
@@ -173,7 +173,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
             observations_t.push_back(LandmarkObs{observations[j].id, m_x_t,m_y_t});
         }
         
-        // Prectied is the map landmarks within sensor range respect to current partical's location.
+        // Predicted is the map landmarks within sensor range respect to current particle's location.
         vector<LandmarkObs> predicted; // Declare predicted as Landmark objects
         // if the landmark is within sensor range , append to predicted
         for (int k = 0; k < map_landmarks.landmark_list.size(); ++k){
