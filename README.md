@@ -51,9 +51,8 @@ Be cautious whenever you have an incoming variable that has been processed at th
 Here in this project, the yaw rate could be zero and when it is zero, the prediction step needs to use a different equation.
 
 
-<img src="./images/nonzero-yaw-rate.png" width="100">
-
-<img src="./images/zero-yaw-rate.png" width="100">
+<img src="./images/nonzero-yaw-rate.png" width="300">
+<img src="./images/zero-yaw-rate.png" width="300">
 
 ## Result Video
 Here is my final result video. the circle with x inside represents the landmarks and the blue circle around the car represents the predicted location and orientation.
